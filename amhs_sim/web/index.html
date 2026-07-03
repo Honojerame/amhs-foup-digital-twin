@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AMHS Control Room</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">SEMICONDUCTOR FAB · DIGITAL TWIN</p>
+      <h1>AMHS Control Room</h1>
+    </div>
+    <div class="status"><span class="pulse"></span><span id="connection">LIVE PLANT DATA</span></div>
+  </header>
+
+  <main>
+    <section class="metrics">
+      <article><span>SIM TIME</span><strong id="sim-time">0.00 s</strong></article>
+      <article><span>COMPLETED</span><strong id="completed">0 FOUPs</strong></article>
+      <article><span>DISPATCH QUEUE</span><strong id="queued">0 lots</strong></article>
+      <article><span>SYSTEM STATE</span><strong id="system-state">RUNNING</strong></article>
+    </section>
+
+    <section class="panel rail-panel">
+      <div class="panel-title"><div><span>FAB BAY 01</span><h2>Overhead Hoist Transport</h2></div><span class="legend">● OHT &nbsp; ◆ FOUP</span></div>
+      <canvas id="fab-canvas" aria-label="Animated overhead transport system"></canvas>
+    </section>
+
+    <section class="lower-grid">
+      <div class="panel">
+        <div class="panel-title"><div><span>EMBEDDED CONTROL</span><h2>Vehicle telemetry</h2></div></div>
+        <div id="vehicles" class="vehicle-list"></div>
+      </div>
+      <div class="panel controls">
+        <div class="panel-title"><div><span>OPERATOR PANEL</span><h2>Simulation controls</h2></div></div>
+        <button id="pause">Pause system</button>
+        <button data-speed="1">1×</button><button data-speed="2">2×</button><button data-speed="4">4×</button>
+        <button id="reset" class="secondary">Reset scenario</button>
+        <p>Use the E-stop buttons beside a vehicle to inject a photoeye safety interlock.</p>
+      </div>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -6,6 +6,9 @@ connects factory scheduling with the controls concepts behind an overhead hoist
 transport (OHT): servo drives, actuator sequencing, sensor interlocks, and
 microcontroller-style state machines.
 
+The project includes a real-time browser control room that animates OHT motion,
+FOUP transfers, servo telemetry, dispatch activity, and safety interlocks.
+
 ## What this demonstrates
 
 - **Robotics:** motion planning between stockers and process tools
@@ -14,6 +17,17 @@ microcontroller-style state machines.
 - **Embedded control:** deterministic finite-state machine and emergency stop
 - **Manufacturing software:** FOUP dispatch queue, station routing, and telemetry
 - **Software engineering:** typed Python, unit tests, packaging, and GitHub CI
+- **HMI/digital twin:** live HTTP telemetry, animated plant view, and fault injection
+
+## Live control-room dashboard
+
+```bash
+python -m amhs_sim.web
+```
+
+Then open [http://127.0.0.1:8080](http://127.0.0.1:8080). The dashboard supports
+1×/2×/4× plant time, pause/resume, scenario reset, and per-vehicle emergency-stop
+injection. It runs entirely on the Python standard library.
 
 ## System architecture
 
@@ -28,7 +42,12 @@ flowchart LR
     Drive --> Rail["Overhead rail position"]
     Hoist --> Tool["Stocker / process tool load port"]
     MCU --> T["Telemetry and diagnostics"]
+    T --> API["HTTP state and control API"]
+    API --> HMI["Real-time browser HMI"]
 ```
+
+See the [complete systems drawing](docs/system-architecture.md) for the fab
+control hierarchy, data flow, safety feedback, and controller state model.
 
 The controller follows this sequence:
 
@@ -74,11 +93,11 @@ important control boundaries while keeping the model readable.
 - Collision avoidance and rail-segment reservations
 - MQTT/OPC UA telemetry adapter
 - STM32/FreeRTOS reference firmware for the OHT controller
-- Browser dashboard with live vehicle animation and fault injection
 - Dispatch policy comparison (FIFO, nearest-vehicle, priority lots)
 
 ## Resume bullet
 
 > Built a Python digital twin of semiconductor-fab AMHS operations, modeling
 > FOUP dispatch, multi-vehicle OHT motion, acceleration-limited servo control,
-> hoist actuator sequencing, safety interlocks, telemetry, automated tests, and CI.
+> hoist actuator sequencing, safety interlocks, live browser HMI, fault injection,
+> telemetry, automated tests, and CI.
