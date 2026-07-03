@@ -43,7 +43,10 @@ class OhtController:
         if self.state is not VehicleState.FAULT:
             return False
         self.fault_reason = ""
-        self.state = VehicleState.IDLE if self.job is None else VehicleState.TO_PICKUP
+        if self.job is None:
+            self.state = VehicleState.IDLE
+        else:
+            self.state = VehicleState.TO_DROPOFF if self.job.picked else VehicleState.TO_PICKUP
         return True
 
     def update(self, time_s: float, dt_s: float) -> Telemetry:
@@ -83,4 +86,3 @@ class OhtController:
             target_m=round(self.target_m, 3),
             foup_id=self.job.foup_id if self.job else "",
         )
-

@@ -12,7 +12,10 @@ license = {text = "MIT"}
 
 [project.scripts]
 amhs-sim = "amhs_sim.cli:main"
+amhs-dashboard = "amhs_sim.web:main"
 
 [tool.setuptools.packages.find]
 include = ["amhs_sim*"]
 
+[tool.setuptools.package-data]
+amhs_sim = ["web/*.html", "web/*.css", "web/*.js"]

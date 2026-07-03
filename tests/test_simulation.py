@@ -30,7 +30,20 @@ class SimulationTests(unittest.TestCase):
         fab.step()
         self.assertEqual(len(fab.telemetry), 2)
 
+    def test_snapshot_exposes_hmi_contract(self) -> None:
+        snapshot = demo_fab().snapshot()
+        self.assertEqual(len(snapshot["stations"]), 4)
+        self.assertEqual(len(snapshot["vehicles"]), 2)
+        self.assertEqual(snapshot["queue"][0]["foup_id"], "FOUP-1001")
+
+    def test_fault_reset_resumes_loaded_vehicle_toward_dropoff(self) -> None:
+        source, destination = Station("A", 1), Station("B", 5)
+        job = Foup("F1", source, destination, picked=True)
+        vehicle = OhtController("OHT-01", job=job)
+        vehicle.emergency_stop("interlock")
+        vehicle.reset_fault()
+        self.assertEqual(vehicle.state, VehicleState.TO_DROPOFF)
+
 
 if __name__ == "__main__":
     unittest.main()
-
