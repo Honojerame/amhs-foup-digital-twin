@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amhs-foup-simulator"
+version = "0.1.0"
+description = "Discrete-event digital twin of semiconductor fab FOUP transport and OHT controls"
+requires-python = ">=3.10"
+authors = [{name = "AMHS Portfolio Project"}]
+license = {text = "MIT"}
+
+[project.scripts]
+amhs-sim = "amhs_sim.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["amhs_sim*"]
+
